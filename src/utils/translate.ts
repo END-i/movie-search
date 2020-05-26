@@ -27,6 +27,10 @@ const languages: ILanguages = {
     en: "Tokyo",
     ru: "Токио",
   },
+  copyright: {
+    en: "Copyright",
+    ru: "Авторские права",
+  },
 };
 
 export default function (str: string) {

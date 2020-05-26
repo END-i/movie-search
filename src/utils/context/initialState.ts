@@ -15,7 +15,7 @@ const initialState: IInitialState = {
   lang: { key: "ru", value: "ru-RU" },
   search: initFilm,
   searchAutocomplete: initFilm,
-  query: "das",
+  query: "",
 };
 
 export default initialState;

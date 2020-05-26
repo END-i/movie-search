@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 import translate from "utils/translate";
+import { white, blue, blue2 } from "assets/colors";
 
 const Wrapper = styled.div`
   position: fixed;
@@ -12,22 +13,30 @@ const Wrapper = styled.div`
   align-items: center;
   justify-content: center;
   padding: 10px;
-  background: #081c24;
-  color: #fff;
-  & > a {
-    color: #41b2e8;
+  background: ${blue};
+  color: ${white};
+  & a {
+    color: ${blue2};
     transition: 0.1s;
     margin: 0 10px;
     &:hover {
       text-decoration: underline;
     }
   }
+
+  @media only screen and (max-width: 480px) {
+    display: grid;
+    justify-items: center;
+    padding: 2px 10px;
+  }
 `;
 
 export default function () {
   return (
     <Wrapper>
-      &copy; {new Date().getFullYear()} {translate("tokyo")}, Copyright:{" "}
+      <div>
+        &copy; {`${new Date().getFullYear()} ${translate("tokyo")}, ${translate("copyright")}:`}
+      </div>
       <a href="https://github.com/END-i">https://github.com/END-i</a>
     </Wrapper>
   );
