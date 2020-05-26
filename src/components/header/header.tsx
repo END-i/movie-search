@@ -51,6 +51,8 @@ export default function () {
   useEffect(() => {
     if (searchFilmTitle) {
       searchAutocomplete();
+    } else {
+      dispatch("search", { results: [] });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchFilmTitle, lang]);

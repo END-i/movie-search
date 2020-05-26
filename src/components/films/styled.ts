@@ -57,13 +57,16 @@ const ReleaseDate = styled.div`
 const NoPoster = styled.div`
   background: url("${popcorn}") no-repeat center;
   height: 80%;
+  min-height: 300px;
   box-sizing: border-box;
   background-size: 100px;
 `;
 
 const NoFilms = styled.div`
   text-align: center;
-  padding: 150px;
+  padding: 150px 20px;
+  box-sizing: border-box;
+  min-width: 320px;
 `;
 
 const More = styled.div`
