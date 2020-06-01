@@ -1,18 +1,18 @@
 import React, { useEffect, useRef, useState } from "react";
 
-import { useGlobalState } from "utils/context";
+import { useGlobalState, useDispatch } from "utils/context";
 import { initFilm } from "utils/context/initialState";
 import useFetch from "utils/useFetch";
-import translate from "utils/translate";
+import t from "utils/translate";
 import { IFilm, IFilms } from "utils/types";
 import { Wrapper, NoFilms, More, FilmsGrid } from "./styled";
-import { ReactComponent as CircleIcon } from "assets/circle.svg";
+import { ReactComponent as CircleIcon } from "assets/icons/circle.svg";
 import Film from "./filmItem";
 
 export default function () {
-  const { films, query, lang } = useGlobalState();
+  const { films, query, lang, page } = useGlobalState();
+  const dispatch = useDispatch();
   const wrapperRef = useRef<HTMLDivElement>(null);
-  const [page, setPage] = useState<number>(1);
   const [filmList, setFilmList] = useState<IFilms>(initFilm);
 
   const searchMovie = useFetch(
@@ -28,8 +28,9 @@ export default function () {
   }, [page]);
 
   useEffect(() => {
-    setPage(1);
+    dispatch("page", 1);
     setFilmList(initFilm);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query]);
 
   useEffect(() => {
@@ -42,12 +43,8 @@ export default function () {
   }, [films]);
 
   const changePage = () => {
-    setPage((prev) => {
-      if (films.total_pages <= page) {
-        return prev;
-      }
-      return ++prev;
-    });
+    const p: number = films.total_pages <= page ? page : page + 1;
+    dispatch("page", p);
   };
 
   const Content = () => {
@@ -63,7 +60,7 @@ export default function () {
           {films.total_pages > page ? (
             <More onClick={changePage}>
               <CircleIcon />
-              {translate("more")}
+              {t("more")}
             </More>
           ) : null}
         </>
@@ -71,10 +68,10 @@ export default function () {
     }
 
     if (!query) {
-      return <NoFilms>{translate("start search")}</NoFilms>;
+      return <NoFilms>{t("start search")}</NoFilms>;
     }
 
-    return <NoFilms>{translate("no matched")}</NoFilms>;
+    return <NoFilms>{t("no matched")}</NoFilms>;
   };
 
   return (

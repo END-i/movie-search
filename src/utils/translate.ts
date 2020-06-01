@@ -31,6 +31,18 @@ const languages: ILanguages = {
     en: "Copyright",
     ru: "Авторские права",
   },
+  rating: {
+    en: "Rating",
+    ru: "Рейтинг",
+  },
+  overview: {
+    en: "Overview",
+    ru: "Обзор",
+  },
+  starring: {
+    en: "Starring",
+    ru: "В главных ролях",
+  },
 };
 
 export default function (str: string) {

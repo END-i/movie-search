@@ -1,9 +1,11 @@
 import React, { useState, useRef, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 
+import { DropDown } from "components";
 import { useGlobalState, useDispatch } from "utils/context";
 import useOutsideClick from "utils/useOutsideClick";
 import useFetch from "utils/useFetch";
-import translate from "utils/translate";
+import t from "utils/translate";
 import {
   Wrapper,
   Container,
@@ -11,9 +13,6 @@ import {
   SearchWrapper,
   Input,
   Icon,
-  Lang,
-  LangList,
-  CurrentLang,
   SearchResult,
   Clear,
 } from "./styled";
@@ -23,23 +22,32 @@ const list = [
   { key: "ru", value: "ru-RU" },
 ];
 
+const filters = [
+  { key: "actors", value: "actors" },
+  { key: "movies", value: "movies" },
+];
+
 export default function () {
-  const { lang, search, query } = useGlobalState();
+  const { lang, search, query, searchBy } = useGlobalState();
   const dispatch = useDispatch();
-  const langRef = useRef<HTMLDivElement>(null);
+  const { push } = useHistory();
   const searchResRef = useRef<HTMLDivElement>(null);
-  const [show, setShow] = useState<boolean>(false);
-  const [searchFilmTitle, setSearchFilmTitle] = useState<string>("");
+  const [searchFilmTitle, setSearchFilmTitle] = useState<string>(query);
 
   const searchAutocomplete = useFetch(
     `search/movie?api_key=<<api_key>>&language=${lang.value}&query=${searchFilmTitle}&page=1&include_adult=false`,
     "search",
   );
-
   const searchMovie = useFetch(
     `search/movie?api_key=<<api_key>>&language=${lang.value}&query=${query}&page=1&include_adult=false`,
     "films",
   );
+
+  useEffect(() => {
+    if (query) {
+      setSearchFilmTitle(query);
+    }
+  }, [query]);
 
   useEffect(() => {
     if (query) {
@@ -48,39 +56,11 @@ export default function () {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query, lang]);
 
-  useEffect(() => {
-    if (searchFilmTitle) {
-      searchAutocomplete();
-    } else {
-      dispatch("search", { results: [] });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchFilmTitle, lang]);
-
-  const changeLang = (i: { key: string; value: string }) => {
-    dispatch("lang", i);
-    hide();
-  };
-
-  useOutsideClick(langRef, () => {
-    if (show) {
-      hide();
-    }
-  });
-
-  useOutsideClick(langRef, () => {
-    if (show) {
-      hide();
-    }
-  });
-
   useOutsideClick(searchResRef, () => {
     if (search.results.length) {
       dispatch("search", { results: [] });
     }
   });
-
-  const hide = () => setShow(false);
 
   const handleChange = ({ target: { value } }: { target: { value: string } }) => {
     setSearchFilmTitle(value);
@@ -89,9 +69,17 @@ export default function () {
   const onKey = ({ key }: { key: string }) => {
     if (key === "Escape") {
       clear();
+      return;
     }
     if (key === "Enter") {
       dispatch("query", searchFilmTitle);
+      dispatch("search", { results: [] });
+      push(`/home?lang=${lang.value}&query=${searchFilmTitle}&page=1&searchBy=${searchBy.value}`);
+      return;
+    }
+    if (searchFilmTitle) {
+      searchAutocomplete();
+    } else {
       dispatch("search", { results: [] });
     }
   };
@@ -99,6 +87,7 @@ export default function () {
   const onSearchMovie = (title: string) => {
     dispatch("query", title);
     setSearchFilmTitle(title);
+    dispatch("search", { results: [] });
   };
 
   const clear = () => {
@@ -110,13 +99,13 @@ export default function () {
 
   const searchresultContent = () => {
     const { results } = search;
-    if (results.length && results.length > 1) {
+    if (results && results.length > 1) {
       return (
         <SearchResult>
           {results &&
-            results.map(({ id, original_title }) => (
-              <div key={id} onClick={() => onSearchMovie(original_title)}>
-                {original_title}
+            results.map(({ id, title }) => (
+              <div key={id} onClick={() => onSearchMovie(title)}>
+                {title}
               </div>
             ))}
         </SearchResult>
@@ -124,6 +113,7 @@ export default function () {
     }
     return null;
   };
+
   return (
     <Wrapper>
       <Container>
@@ -131,24 +121,17 @@ export default function () {
         <SearchWrapper ref={searchResRef}>
           <Icon />
           <Input
-            placeholder={translate("search")}
+            placeholder={t("search")}
             value={searchFilmTitle}
             onChange={handleChange}
             onKeyDown={onKey}
+            onFocus={() => searchFilmTitle && searchAutocomplete}
           />
           {searchresultContent()}
           <Clear onClick={clear} />
         </SearchWrapper>
-        <Lang ref={langRef}>
-          <CurrentLang onClick={() => setShow((prev) => !prev)}>{lang.key}</CurrentLang>
-          <LangList show={show}>
-            {list.map(({ value, key }) => (
-              <div key={key} onClick={() => changeLang({ value, key })}>
-                {key}
-              </div>
-            ))}
-          </LangList>
-        </Lang>
+        <DropDown options={list} callback={(i) => dispatch("lang", i)} current={lang} />
+        <DropDown options={filters} callback={(i) => dispatch("searchBy", i)} current={searchBy} />
       </Container>
     </Wrapper>
   );

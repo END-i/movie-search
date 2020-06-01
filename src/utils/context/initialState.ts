@@ -11,11 +11,15 @@ const initialState: IInitialState = {
   loading: true,
   errors: false,
   films: initFilm,
-  genre: [],
   lang: { key: "ru", value: "ru-RU" },
   search: initFilm,
   searchAutocomplete: initFilm,
   query: "",
+  page: 1,
+  searchBy: { key: "movies", value: "movies" },
+  movieDetails: null,
+  actorDetauls: null,
+  movieActors: null,
 };
 
 export default initialState;

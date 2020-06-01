@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-import translate from "utils/translate";
+import t from "utils/translate";
 import { white, blue, blue2 } from "assets/colors";
 
 const Wrapper = styled.div`
@@ -35,7 +35,7 @@ export default function () {
   return (
     <Wrapper>
       <div>
-        &copy; {`${new Date().getFullYear()} ${translate("tokyo")}, ${translate("copyright")}:`}
+        &copy; {`${new Date().getFullYear()} ${t("tokyo")}, ${t("copyright")}:`}
       </div>
       <a href="https://github.com/END-i">https://github.com/END-i</a>
     </Wrapper>

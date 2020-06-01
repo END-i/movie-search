@@ -1,14 +1,18 @@
 import React from "react";
+import { createBrowserHistory } from "history";
+import { Router as BrowserRouter } from "react-router";
 
-import GlobalStyles from "./globalStyles";
+import Routes from "pages";
 import { Provider } from "utils/context";
-import { Dashboard } from "components";
+
+const history = createBrowserHistory();
 
 export default function () {
   return (
-    <Provider>
-      <GlobalStyles />
-      <Dashboard />
-    </Provider>
+    <BrowserRouter history={history}>
+      <Provider>
+        <Routes />
+      </Provider>
+    </BrowserRouter>
   );
 }

@@ -11,5 +11,6 @@ interface StateContextProps {
 }
 
 export default function ({ children, state }: StateContextProps) {
+  console.log('state :>> ', state);
   return <StateContext.Provider value={state}>{children}</StateContext.Provider>;
 }

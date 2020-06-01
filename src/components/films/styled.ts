@@ -1,34 +1,17 @@
 import styled from "styled-components";
 
-import popcorn from "assets/popcorn.svg";
+import { MediaContainer } from "components/styled";
+import popcorn from "assets/icons/popcorn.svg";
 import { white2, white, black, blue } from "assets/colors";
 
 const Wrapper = styled.div``;
-const FilmsGrid = styled.div`
+const FilmsGrid = styled(MediaContainer)`
   position: relative;
   display: grid;
   grid-template-columns: repeat(auto-fit, 200px);
   grid-gap: 20px;
   justify-content: center;
   padding: 20px;
-  min-width: 320px;
-  margin: 0 auto;
-  box-sizing: border-box;
-  @media only screen and (min-width: 320px) {
-    max-width: 480px;
-  }
-  @media only screen and (min-width: 480px) {
-    max-width: 600px;
-  }
-  @media only screen and (min-width: 600px) {
-    max-width: 768px;
-  }
-  @media only screen and (min-width: 768px) {
-    max-width: 900px;
-  }
-  @media only screen and (min-width: 900px) {
-    max-width: 1024px;
-  }
 `;
 const FilmWrapper = styled.div`
   border: 1px solid ${white2};
@@ -37,12 +20,16 @@ const FilmWrapper = styled.div`
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   background-color: ${white};
   max-width: 300px;
+  cursor: pointer;
 `;
 const Title = styled.p`
   font-weight: 700;
   color: ${black};
   font-size: 1.2em;
   margin: 10px 10px 5px;
+  &:hover {
+    text-decoration: underline;
+  }
 `;
 const Poster = styled.img`
   width: 100%;

@@ -1,8 +1,9 @@
 import styled from "styled-components";
 
-import { ReactComponent as SearchIcon } from "assets/search.svg";
-import { ReactComponent as CloseIcon } from "assets/close.svg";
-import { gray, white, black, blue } from "assets/colors";
+import { MediaContainer } from "components/styled";
+import { ReactComponent as SearchIcon } from "assets/icons/search.svg";
+import { ReactComponent as CloseIcon } from "assets/icons/close.svg";
+import { gray, white, blue } from "assets/colors";
 
 const Wrapper = styled.div`
   background: ${blue};
@@ -13,29 +14,9 @@ const Wrapper = styled.div`
   right: 0;
   z-index: 1;
 `;
-const Container = styled.div`
-  margin: 0 auto;
-  padding: 0 20px;
-  box-sizing: border-box;
-  min-width: 320px;
+const Container = styled(MediaContainer)`
   display: flex;
   align-items: center;
-  @media only screen and (max-width: 320px) {
-    max-width: 480px;
-  }
-  @media only screen and (max-width: 480px) {
-    max-width: 600px;
-    display: grid;
-  }
-  @media only screen and (max-width: 600px) {
-    max-width: 768px;
-  }
-  @media only screen and (max-width: 768px) {
-    max-width: 900px;
-  }
-  @media only screen and (max-width: 900px) {
-    max-width: 1024px;
-  }
 `;
 const Title = styled.h1`
   margin: 0;
@@ -86,52 +67,6 @@ const Clear = styled(CloseIcon)`
     opacity: 1;
   }
 `;
-const Lang = styled.div`
-  position: relative;
-  @media only screen and (max-width: 480px) {
-    grid-column-start: 3;
-    grid-row-start: 1;
-    display: flex;
-    justify-content: flex-end;
-  }
-`;
-const LangList = styled.div<{ show: boolean }>`
-  border: 5px solid ${white};
-  position: absolute;
-  top: 20px;
-  right: 5px;
-  background: ${gray};
-  width: 40px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
-  display: grid;
-  grid-gap: 1px;
-  visibility: ${({ show }) => (show ? "visible" : "hidden")};
-  & > div {
-    text-transform: uppercase;
-    text-align: center;
-    padding: 5px 0;
-    cursor: pointer;
-    background: ${white};
-    color: ${gray};
-    transition: color 0.15s;
-    &:hover {
-      color: ${black};
-      font-weight: bold;
-    }
-  }
-`;
-const CurrentLang = styled.div`
-  margin: 0 20px;
-  font-weight: 600;
-  text-transform: uppercase;
-  cursor: pointer;
-  opacity: 0.8;
-  width: 25px;
-  text-align: center;
-  &:hover {
-    opacity: 1;
-  }
-`;
 const SearchResult = styled.div`
   position: absolute;
   background: ${white};
@@ -158,16 +93,4 @@ const SearchResult = styled.div`
   }
 `;
 
-export {
-  Wrapper,
-  Container,
-  Title,
-  SearchWrapper,
-  Input,
-  Icon,
-  Lang,
-  LangList,
-  CurrentLang,
-  SearchResult,
-  Clear,
-};
+export { Wrapper, Container, Title, SearchWrapper, Input, Icon, SearchResult, Clear };
