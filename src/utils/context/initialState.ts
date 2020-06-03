@@ -20,6 +20,9 @@ const initialState: IInitialState = {
   movieDetails: null,
   actorDetauls: null,
   movieActors: null,
+  similarMovie: null,
+  actorDetails: null,
+  actorMovies: null,
 };
 
 export default initialState;

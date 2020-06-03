@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 import { MediaContainer } from "components/styled";
-import popcorn from "assets/icons/popcorn.svg";
+import movie from "assets/icons/movie.svg";
 import { white2, white, black, blue } from "assets/colors";
 
 const Wrapper = styled.div``;
@@ -42,7 +42,7 @@ const ReleaseDate = styled.div`
 `;
 
 const NoPoster = styled.div`
-  background: url("${popcorn}") no-repeat center;
+  background: url("${movie}") no-repeat center;
   height: 80%;
   min-height: 300px;
   box-sizing: border-box;

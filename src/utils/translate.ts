@@ -43,6 +43,10 @@ const languages: ILanguages = {
     en: "Starring",
     ru: "В главных ролях",
   },
+  "similar movies": {
+    en: "Similar movies",
+    ru: "Похожие фильмы",
+  },
 };
 
 export default function (str: string) {

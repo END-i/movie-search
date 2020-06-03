@@ -17,9 +17,13 @@ const Wrapper = styled.div`
 const Container = styled(MediaContainer)`
   display: flex;
   align-items: center;
+  @media only screen and (max-width: 480px) {
+    display: grid;
+  }
 `;
 const Title = styled.h1`
   margin: 0;
+  cursor: pointer;
   @media only screen and (max-width: 320px) {
     max-width: 480px;
     grid-column-start: 1;

@@ -117,7 +117,7 @@ export default function () {
   return (
     <Wrapper>
       <Container>
-        <Title>TMDB</Title>
+        <Title onClick={() => push("/home")}>TMDB</Title>
         <SearchWrapper ref={searchResRef}>
           <Icon />
           <Input
