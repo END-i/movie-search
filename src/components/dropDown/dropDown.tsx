@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 
 import useOutsideClick from "utils/useOutsideClick";
+import { IDropDownValue } from "utils/types";
 import { Wrapper, Current, List } from "./styled";
 
 export default function ({
@@ -12,7 +13,7 @@ export default function ({
     key: string;
     value: string;
   }[];
-  callback: (value: { value: string; key: string }) => void;
+  callback: (value: IDropDownValue) => void;
   current: {
     key: string;
     value: string;
@@ -34,14 +35,14 @@ export default function ({
     }
   }, [current]);
 
-  const handleChoose = (i: { value: string; key: string }) => () => {
+  const handleChoose = (i: IDropDownValue) => () => {
     setDdState(i);
     callback(i);
     setShow(false);
   };
 
   return (
-    <Wrapper ref={dropdownRef} onClick={() => setShow(true)}>
+    <Wrapper ref={dropdownRef}>
       <Current onClick={() => setShow(true)}>{ddState.key}</Current>
       <List show={show}>
         {options.map(({ value, key }) => (

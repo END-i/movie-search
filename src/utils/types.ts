@@ -7,10 +7,9 @@ export type IProvider = {
 export interface IInitialState {
   loading: boolean;
   errors: boolean;
-  films: IFilms;
-  lang: IDropDownCurrent;
-  search: IFilms;
-  searchAutocomplete: IFilms;
+  searchResults: IResults;
+  search: IResults;
+  searchAutocomplete: IResults;
   query: string;
   page: number;
   searchBy: IDropDownCurrent;
@@ -18,8 +17,26 @@ export interface IInitialState {
   actorDetauls: any;
   movieActors: IMovieActors | null;
   similarMovie: ISimilarMovie | null;
-  actorDetails: any | null;
+  actorDetails: IActorDetails | null;
   actorMovies: any | null;
+  filters: IDropDownValue[];
+}
+
+export interface IActorDetails {
+  adult: false;
+  also_known_as: string[];
+  biography: string;
+  birthday: string;
+  deathday: string | null;
+  gender: number;
+  homepage: string;
+  id: number;
+  imdb_id: string;
+  known_for_department: string;
+  name: string;
+  place_of_birth: string;
+  popularity: number;
+  profile_path: string;
 }
 
 export interface ISimilarMovie {
@@ -50,8 +67,7 @@ export type IDispatch = {
 export type IType =
   | "errors"
   | "loading"
-  | "films"
-  | "lang"
+  | "searchResults"
   | "search"
   | "searchAutocomplete"
   | "query"
@@ -64,13 +80,14 @@ export type IType =
   | "actorDetails"
   | "actorMovies";
 
-export interface IFilms {
+export interface IResults {
   page: number;
-  results: IFilm[];
+  results: IResult[];
   total_pages: number;
   total_results: number;
 }
-export interface IFilm {
+export type ItemProps = IResult | any;
+export interface IResult {
   adult: boolean;
   backdrop_path: string;
   genre_ids: number[];
@@ -170,4 +187,16 @@ export interface IMovieActors {
     name: string;
     profile_path: string | null;
   }[];
+}
+
+export interface IDropDownValue {
+  value: string;
+  key: string;
+}
+
+export interface ISearchAreaProps {
+  setSearchFilmTitle: React.Dispatch<React.SetStateAction<string>>;
+  searchFilmTitle: string;
+  onSearchMovie: (title: string) => void;
+  clear: () => void;
 }

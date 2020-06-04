@@ -21,32 +21,37 @@ const FilmWrapper = styled.div`
   background-color: ${white};
   max-width: 300px;
   cursor: pointer;
+  display: flex;
+  flex-direction: column;
 `;
 const Title = styled.p`
   font-weight: 700;
   color: ${black};
   font-size: 1.2em;
-  margin: 10px 10px 5px;
+  margin: 0 10px 5px;
   &:hover {
     text-decoration: underline;
   }
 `;
-const Poster = styled.img`
-  width: 100%;
+const Poster = styled.div<{ image: string; cover: boolean }>`
+  background: ${({ image }) => `url("${image}") no-repeat center`};
+  ${({ cover }) =>
+    cover
+      ? `
+    background-size: contain;
+    border-radius: 8px 8px 0 0;
+    margin: 0 10px;`
+      : `
+    background-size: cover;  
+    `}
+  height: 300px;
+  box-sizing: border-box;
 `;
 const ReleaseDate = styled.div`
   font-size: 1em;
   margin: 0 10px 10px;
   padding: 0;
   color: rgba(0, 0, 0, 0.6);
-`;
-
-const NoPoster = styled.div`
-  background: url("${movie}") no-repeat center;
-  height: 80%;
-  min-height: 300px;
-  box-sizing: border-box;
-  background-size: 100px;
 `;
 
 const NoFilms = styled.div`
@@ -64,6 +69,7 @@ const More = styled.div`
   cursor: pointer;
   padding: 50px 0 50px;
   font-size: 1.5em;
+  font-weight: 600;
   svg {
     width: 25px;
     height: 25px;
@@ -75,4 +81,4 @@ const More = styled.div`
   }
 `;
 
-export { Wrapper, FilmWrapper, Title, Poster, ReleaseDate, NoPoster, NoFilms, More, FilmsGrid };
+export { Wrapper, FilmWrapper, Title, Poster, ReleaseDate, NoFilms, More, FilmsGrid };

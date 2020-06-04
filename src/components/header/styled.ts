@@ -24,6 +24,7 @@ const Container = styled(MediaContainer)`
 const Title = styled.h1`
   margin: 0;
   cursor: pointer;
+  user-select: none;
   @media only screen and (max-width: 320px) {
     max-width: 480px;
     grid-column-start: 1;
@@ -97,4 +98,11 @@ const SearchResult = styled.div`
   }
 `;
 
-export { Wrapper, Container, Title, SearchWrapper, Input, Icon, SearchResult, Clear };
+const Filter = styled.div`
+  display: flex;
+  align-items: center;
+  width: 270px;
+  padding-left: 20px;
+  font-weight: 600;
+`;
+export { Filter, Wrapper, Container, Title, SearchWrapper, Input, Icon, SearchResult, Clear };

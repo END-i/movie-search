@@ -1,6 +1,7 @@
 import React, { createContext, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useHistory } from "react-router-dom";
 
+import { homePath } from "pages/_routes/routesList";
 import { IType, IDispatch } from "utils/types";
 import initialState from "./initialState";
 
@@ -15,10 +16,11 @@ export default function ({ children, dispatch: _dispatch }: DispatchContextProps
   const dispatch = (type: IType, value: any) => _dispatch({ type, value });
 
   const { search } = useLocation();
+  const { push } = useHistory();
 
   useEffect(() => {
     if (search) {
-      const param: { [key: string]: any } = {
+      const param: { [key: string]: string | number } = {
         query: initialState.query,
         page: initialState.page,
       };
@@ -28,19 +30,26 @@ export default function ({ children, dispatch: _dispatch }: DispatchContextProps
         .split("&")
         .forEach((el) => {
           const [name, value] = el.split("=");
-          if (name === "query" || "page") {
+          if ("page") {
+            param[name] = Number(value);
+          }
+          if (name === "query") {
             param[name] = value;
           }
-          if (name === "lang") {
-            const [key] = value.split("-");
-            dispatch("lang", { key: key, value });
-          }
-          if (name === "searchBy" && (value === "movies" || "actors")) {
-            dispatch("searchBy", { key: value, value });
+          if (name === "searchBy") {
+            const searchBy = initialState.filters.find((a) => a.value === value);
+            if (searchBy) {
+              dispatch("searchBy", searchBy);
+            } else {
+              push(homePath);
+            }
           }
         });
       dispatch("query", param.query);
       dispatch("page", param.page);
+    } else {
+      dispatch("query", "");
+      dispatch("page", 1);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [search]);

@@ -1,6 +1,6 @@
 import { IInitialState } from "utils/types";
 
-export const initFilm = {
+export const initResult = {
   page: 1,
   results: [],
   total_pages: 0,
@@ -10,19 +10,24 @@ export const initFilm = {
 const initialState: IInitialState = {
   loading: true,
   errors: false,
-  films: initFilm,
-  lang: { key: "ru", value: "ru-RU" },
-  search: initFilm,
-  searchAutocomplete: initFilm,
+  searchResults: initResult,
+  search: initResult,
+  searchAutocomplete: initResult,
   query: "",
   page: 1,
-  searchBy: { key: "movies", value: "movies" },
+  searchBy: { key: "movies", value: "movie" },
   movieDetails: null,
   actorDetauls: null,
   movieActors: null,
   similarMovie: null,
   actorDetails: null,
   actorMovies: null,
+  filters: [
+    { key: "actors", value: "person" },
+    { key: "movies", value: "movie" },
+    { key: "company", value: "company" },
+    { key: "tv show", value: "tv" },
+  ],
 };
 
 export default initialState;

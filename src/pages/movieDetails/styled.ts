@@ -6,6 +6,10 @@ const Wrapper = styled.div<{ image: string }>`
   background: ${({ image }) => `url("${image}") no-repeat center`};
   background-size: cover;
   height: auto;
+  width: auto;
+  @media only screen and (max-width: 480px) {
+    width: fit-content;
+  }
 `;
 const Details = styled.div`
   background: linear-gradient(
@@ -14,6 +18,10 @@ const Details = styled.div`
     rgba(19.61%, 21.96%, 23.53%, 0.84) 100%
   );
   height: auto;
+  width: auto;
+  @media only screen and (max-width: 480px) {
+    width: fit-content;
+  }
 `;
 
 const Poster = styled.img`
@@ -82,18 +90,21 @@ const PartList = styled.div`
   display: flex;
   width: fit-content;
 `;
-const Image = styled.img`
+const Image = styled.div<{ image: string }>`
+  background: ${({ image }) => `url("${image}") no-repeat center`};
+  background-size: cover;
   width: 100%;
-  margin: auto 0;
+  height: 200px;
 `;
 const Item = styled.div`
   display: flex;
   flex-direction: column;
   text-align: center;
   margin: 0 auto;
-  padding: 5px;
+  padding: 0 5px;
   width: 140px;
   box-sizing: border-box;
+  cursor: pointer;
 `;
 const ItemTitle = styled.div`
   margin-top: auto;
@@ -108,6 +119,7 @@ const PartTitle = styled.p`
   font-weight: 600;
   font-size: 1.5em;
   text-decoration: underline;
+  margin: 10px 20px;
 `;
 const Loading = styled.div`
   text-align: center;

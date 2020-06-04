@@ -5,14 +5,16 @@ import { useHistory } from "react-router-dom";
 import { ReactComponent as BackIcon } from "assets/icons/back.svg";
 
 const GoBack = styled.div`
+  position: absolute;
+  top: 45px;
+  left: 5px;
   width: 50px;
   height: 50px;
-  background: #ddd;
+  background: transparent;
   border-radius: 100%;
   padding: 5px;
   box-sizing: border-box;
   display: flex;
-  margin: 10px 20px;
   cursor: pointer;
   transition: 0.2s;
   svg {
@@ -26,6 +28,9 @@ const GoBack = styled.div`
   }
   &:hover > svg {
     fill: #fff;
+  }
+  @media only screen and (max-width: 480px) {
+    top: 85px;
   }
 `;
 

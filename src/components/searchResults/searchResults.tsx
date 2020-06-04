@@ -1,23 +1,22 @@
 import React, { useEffect, useRef, useState } from "react";
 
 import { useGlobalState, useDispatch } from "utils/context";
-import { initFilm } from "utils/context/initialState";
+import { initResult } from "utils/context/initialState";
 import useFetch from "utils/useFetch";
-import t from "utils/translate";
-import { IFilm, IFilms } from "utils/types";
+import { IResult, IResults } from "utils/types";
 import { Wrapper, NoFilms, More, FilmsGrid } from "./styled";
 import { ReactComponent as CircleIcon } from "assets/icons/circle.svg";
-import Film from "./filmItem";
+import Item from "./item";
 
 export default function () {
-  const { films, query, lang, page } = useGlobalState();
+  const { searchResults, query, page, searchBy } = useGlobalState();
   const dispatch = useDispatch();
   const wrapperRef = useRef<HTMLDivElement>(null);
-  const [filmList, setFilmList] = useState<IFilms>(initFilm);
+  const [resultList, setResultList] = useState<IResults>(initResult);
 
   const searchMovie = useFetch(
-    `search/movie?api_key=<<api_key>>&language=${lang.value}&query=${query}&page=${page}&include_adult=false`,
-    "films",
+    `search/${searchBy.value}?api_key=<<api_key>>&language=en-US&query=${query}&page=${page}&include_adult=false`,
+    "searchResults",
   );
 
   useEffect(() => {
@@ -29,38 +28,41 @@ export default function () {
 
   useEffect(() => {
     dispatch("page", 1);
-    setFilmList(initFilm);
+    setResultList(initResult);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query]);
 
   useEffect(() => {
-    if (!filmList.results.length) {
-      setFilmList(films);
+    if (page === 1) {
+      setResultList(searchResults);
     } else {
-      setFilmList((prev) => ({ ...films, results: [...prev.results, ...films.results] }));
+      setResultList((prev) => ({
+        ...searchResults,
+        results: [...prev.results, ...searchResults.results],
+      }));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [films]);
+  }, [searchResults]);
 
   const changePage = () => {
-    const p: number = films.total_pages <= page ? page : page + 1;
+    const p: number = searchResults.total_pages <= page ? page : page + 1;
     dispatch("page", p);
   };
 
   const Content = () => {
-    const { results } = filmList;
+    const { results } = resultList;
     if (results && results.length) {
       return (
         <>
           <FilmsGrid>
-            {results.map((props: IFilm, key: number) => (
-              <Film key={key} {...props} />
+            {results.map((props: IResult, key: number) => (
+              <Item key={key} {...props} />
             ))}
           </FilmsGrid>
-          {films.total_pages > page ? (
+          {searchResults.total_pages > page ? (
             <More onClick={changePage}>
               <CircleIcon />
-              {t("more")}
+              Show 20 more
             </More>
           ) : null}
         </>
@@ -68,10 +70,10 @@ export default function () {
     }
 
     if (!query) {
-      return <NoFilms>{t("start search")}</NoFilms>;
+      return <NoFilms>Enter the name of the movie in the search field to start the.</NoFilms>;
     }
 
-    return <NoFilms>{t("no matched")}</NoFilms>;
+    return <NoFilms>There are no movies that matched your query.</NoFilms>;
   };
 
   return (
