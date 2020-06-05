@@ -17,7 +17,7 @@ const Wrapper = styled.div`
 const Container = styled(MediaContainer)`
   display: flex;
   align-items: center;
-  @media only screen and (max-width: 480px) {
+  @media only screen and (max-width: 600px) {
     display: grid;
   }
 `;
@@ -25,7 +25,7 @@ const Title = styled.h1`
   margin: 0;
   cursor: pointer;
   user-select: none;
-  @media only screen and (max-width: 320px) {
+  @media only screen and (max-width: 600px) {
     max-width: 480px;
     grid-column-start: 1;
     grid-row-start: 1;
@@ -43,9 +43,9 @@ const SearchWrapper = styled.div`
   border-bottom: 1px solid ${blue};
   border-top: 1px solid ${blue};
   box-sizing: border-box;
-  @media only screen and (max-width: 480px) {
+  @media only screen and (max-width: 600px) {
     grid-column-start: 1;
-    grid-column-end: 4;
+    grid-column-end: 3;
     grid-row-start: 2;
     margin: 0;
   }
@@ -101,8 +101,15 @@ const SearchResult = styled.div`
 const Filter = styled.div`
   display: flex;
   align-items: center;
-  width: 270px;
+  justify-content: flex-end;
+  width: 350px;
   padding-left: 20px;
   font-weight: 600;
+  @media only screen and (max-width: 600px) {
+    grid-column-start: 2;
+    grid-row-start: 1;
+    width: auto;
+    justify-self: flex-end;
+  }
 `;
 export { Filter, Wrapper, Container, Title, SearchWrapper, Input, Icon, SearchResult, Clear };

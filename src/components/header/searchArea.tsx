@@ -51,7 +51,7 @@ export default function ({
     if (results && results.length > 1) {
       return (
         <SearchResult>
-          {results.map(({ id, title, name }) => (
+          {results.slice(0, 5).map(({ id, title, name }) => (
             <div key={id} onClick={() => onSearchMovie(searchBy.value === "movie" ? title : name)}>
               {title || name}
             </div>
