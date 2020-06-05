@@ -1,8 +1,7 @@
 import styled from "styled-components";
 
 import { MediaContainer } from "components/styled";
-import movie from "assets/icons/movie.svg";
-import { white2, white, black, blue } from "assets/colors";
+import { white2, white, black, blue, shadow01, shadow06 } from "assets/colors";
 
 const Wrapper = styled.div``;
 const FilmsGrid = styled(MediaContainer)`
@@ -17,7 +16,7 @@ const FilmWrapper = styled.div`
   border: 1px solid ${white2};
   border-radius: 8px;
   overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px ${shadow01};
   background-color: ${white};
   max-width: 300px;
   cursor: pointer;
@@ -51,7 +50,7 @@ const ReleaseDate = styled.div`
   font-size: 1em;
   margin: 0 10px 10px;
   padding: 0;
-  color: rgba(0, 0, 0, 0.6);
+  color: ${shadow06};
 `;
 
 const NoFilms = styled.div`

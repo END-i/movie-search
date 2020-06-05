@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import { gray, white, black } from "assets/colors";
+import { gray, white, black, shadow04 } from "assets/colors";
 
 const Wrapper = styled.div`
   position: relative;
@@ -24,7 +24,7 @@ const List = styled.div<{ show: boolean }>`
   right: 0;
   left: 0;
   background: ${gray};
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 2px 8px ${shadow04};
   display: grid;
   grid-gap: 1px;
   visibility: ${({ show }) => (show ? "visible" : "hidden")};

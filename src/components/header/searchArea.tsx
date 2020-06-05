@@ -29,7 +29,7 @@ export default function ({
 
   const onKey = ({ key }: { key: string }) => {
     if (key === "Escape") {
-      clear();
+      dispatch("search", { results: [] });
       return;
     }
     if (key === "Enter") {
@@ -51,13 +51,11 @@ export default function ({
     if (results && results.length > 1) {
       return (
         <SearchResult>
-          {results
-            ? results.map(({ id, title }) => (
-                <div key={id} onClick={() => onSearchMovie(title)}>
-                  {title}
-                </div>
-              ))
-            : null}
+          {results.map(({ id, title, name }) => (
+            <div key={id} onClick={() => onSearchMovie(searchBy.value === "movie" ? title : name)}>
+              {title || name}
+            </div>
+          ))}
         </SearchResult>
       );
     }
@@ -69,7 +67,7 @@ export default function ({
       <Icon />
       <Input
         placeholder="Search"
-        value={searchFilmTitle.replace(/%20/gi, " ")}
+        value={searchFilmTitle.replace(/%20/gi, " ") || ""}
         onChange={handleChange}
         onKeyUp={onKey}
         onFocus={() => searchFilmTitle && searchAutocomplete}

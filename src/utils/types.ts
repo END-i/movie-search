@@ -4,6 +4,27 @@ export type IProvider = {
   children: ReactNode;
 };
 
+export type IDispatch = {
+  type: IType;
+  value: any;
+};
+export type IType =
+  | "errors"
+  | "loading"
+  | "searchResults"
+  | "search"
+  | "searchAutocomplete"
+  | "query"
+  | "page"
+  | "searchBy"
+  | "movieDetails"
+  | "movieActors"
+  | "similarMovie"
+  | "actorDetails"
+  | "actorMovies"
+  | "genresMovie"
+  | "genresTv";
+
 export interface IInitialState {
   loading: boolean;
   errors: boolean;
@@ -14,16 +35,65 @@ export interface IInitialState {
   page: number;
   searchBy: IDropDownCurrent;
   movieDetails: IMovieDetails | null;
-  actorDetauls: any;
   movieActors: IMovieActors | null;
   similarMovie: ISimilarMovie | null;
   actorDetails: IActorDetails | null;
-  actorMovies: any | null;
+  actorMovies: IActorMovies | null;
   filters: IDropDownValue[];
+  genresMovie: IGenres | null;
+  genresTv: IGenres | null;
 }
 
+export interface IGenres {
+  genres: {
+    id: number;
+    name: string;
+  }[];
+}
+export interface IActorMovies {
+  crew: IActorCrew[];
+  cast: IActorCast[];
+  id: number;
+}
+export interface IActorCast {
+  adult: boolean;
+  backdrop_path: string;
+  character: string;
+  credit_id: string;
+  genre_ids: number[];
+  id: number;
+  original_language: string;
+  original_title: string;
+  overview: string;
+  popularity: number;
+  poster_path: string;
+  release_date: string;
+  title: string;
+  video: boolean;
+  vote_average: number;
+  vote_count: number;
+}
+export interface IActorCrew {
+  adult: boolean;
+  backdrop_path: string;
+  credit_id: string;
+  department: string;
+  genre_ids: number[];
+  id: number;
+  job: string;
+  original_language: string;
+  original_title: string;
+  overview: string;
+  popularity: number;
+  poster_path: string;
+  release_date: string;
+  title: string;
+  video: boolean;
+  vote_average: number;
+  vote_count: number;
+}
 export interface IActorDetails {
-  adult: false;
+  adult: boolean;
   also_known_as: string[];
   biography: string;
   birthday: string;
@@ -60,25 +130,6 @@ export interface ISimilarMovie {
     popularity: number;
   }[];
 }
-export type IDispatch = {
-  type: IType;
-  value: any;
-};
-export type IType =
-  | "errors"
-  | "loading"
-  | "searchResults"
-  | "search"
-  | "searchAutocomplete"
-  | "query"
-  | "page"
-  | "searchBy"
-  | "movieDetails"
-  | "actorDetauls"
-  | "movieActors"
-  | "similarMovie"
-  | "actorDetails"
-  | "actorMovies";
 
 export interface IResults {
   page: number;
@@ -102,8 +153,14 @@ export interface IResult {
   video: boolean;
   vote_average: number;
   vote_count: number;
-}
 
+  gender: number;
+  known_for: number[];
+  known_for_department: string;
+  name: string;
+  profile_path: string;
+}
+export interface IPersonResult {}
 export interface IDropDownCurrent {
   key: string;
   value: string;

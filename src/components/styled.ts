@@ -1,5 +1,7 @@
 import styled from "styled-components";
 
+import { white } from "assets/colors";
+
 export const MediaContainer = styled.div`
   margin: 0 auto;
   padding: 0 20px;
@@ -17,7 +19,7 @@ export const Dirived = styled.div`
     width: 5px;
     height: 5px;
     border-radius: 50%;
-    background: #fff;
+    background: ${white};
     position: absolute;
     top: 0;
     bottom: 0;

@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 import { MediaContainer } from "components/styled";
+import { white2, shadow01 } from "assets/colors";
 
 const Loading = styled.div`
   text-align: center;
@@ -68,7 +69,10 @@ const Row = styled.div`
   flex-wrap: wrap;
 `;
 const Date = styled.div``;
-const Genres = styled.div``;
+const Genres = styled.div`
+  font-weight: 300;
+  margin-top: 5px;
+`;
 const Runtime = styled.div``;
 const Popularity = styled.div`
   font-size: 1.3em;
@@ -84,10 +88,51 @@ const Content = styled(MediaContainer)`
   }
 `;
 const Overview = styled.div`
+  white-space: pre-line;
   p {
     font-size: 1.3em;
     margin: 0 0 5px;
   }
+`;
+
+const PartScroll = styled.div`
+  overflow: auto;
+`;
+const PartList = styled.div`
+  display: flex;
+  width: fit-content;
+`;
+const Image = styled.div<{ image: string }>`
+  background: ${({ image }) => `url("${image}") no-repeat center`};
+  width: 200px;
+  background-size: contain;
+  margin-right: 5px;
+`;
+const Item = styled.div`
+  box-shadow: 0 2px 8px ${shadow01};
+  border: 1px solid ${white2};
+  padding: 10px;
+  margin: 0 10px 10px;
+  display: flex;
+  width: 350px;
+  min-height: 300px;
+  box-sizing: border-box;
+  cursor: pointer;
+`;
+const ItemTitle = styled.div`
+  margin-top: auto;
+  cursor: pointer;
+  margin: 10px 0 0;
+  font-weight: 600;
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+const PartTitle = styled.p`
+  font-weight: 600;
+  font-size: 1.5em;
+  text-decoration: underline;
+  margin: 10px 20px;
 `;
 
 export {
@@ -104,4 +149,10 @@ export {
   Popularity,
   Content,
   Overview,
+  PartScroll,
+  PartList,
+  Image,
+  Item,
+  ItemTitle,
+  PartTitle,
 };

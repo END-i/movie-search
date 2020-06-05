@@ -78,6 +78,7 @@ const Content = styled(MediaContainer)`
   }
 `;
 const Overview = styled.div`
+  white-space: pre-line;
   p {
     font-size: 1.3em;
     margin: 0 0 5px;

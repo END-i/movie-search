@@ -1,35 +1,40 @@
 import React, { useEffect, useState } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 
+import { IActorCast } from "utils/types";
 import useFetch from "utils/useFetch";
 import { useGlobalState } from "utils/context";
 import { Dirived } from "components/styled";
 import { GoBack } from "components";
-import { ReactComponent as BackIcon } from "assets/icons/back.svg";
+import movie from "assets/icons/movie.svg";
 import actor from "assets/icons/actor.svg";
 import actress from "assets/icons/actress.svg";
-import movie from "assets/icons/movie.svg";
+import question from "assets/icons/question.svg";
 import { MediaContainer } from "components/styled";
 import {
   Loading,
-  Wrapper,
   Details,
   Poster,
   Description,
   Title,
   Row,
-  Genres,
-  Runtime,
-  Popularity,
   Content,
   Overview,
+  PartScroll,
+  PartList,
+  Image,
+  Item,
+  ItemTitle,
+  PartTitle,
+  Genres,
 } from "./styled";
 
 export default function () {
   const { push } = useHistory();
   const { search } = useLocation();
-  const { actorDetails, actorMovies } = useGlobalState();
-  const [actorId, setActorId] = useState("");
+  const { actorDetails, actorMovies, genresMovie } = useGlobalState();
+  const [actorId, setActorId] = useState<string>("");
+  const [cast, setCast] = useState<IActorCast[]>();
 
   const getActorDetails = useFetch(
     `person/${actorId}?api_key=<<api_key>>&language=en-US`,
@@ -52,6 +57,22 @@ export default function () {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [search, actorId]);
 
+  useEffect(() => {
+    if (actorMovies) {
+      setCast(() =>
+        actorMovies.cast.sort((a, b) => {
+          if (a.popularity < b.popularity) {
+            return 1;
+          }
+          if (a.popularity > b.popularity) {
+            return -1;
+          }
+          return 0;
+        }),
+      );
+    }
+  }, [actorMovies]);
+
   const age = () => {
     if (!birthday) {
       return "";
@@ -71,15 +92,28 @@ export default function () {
     return `${age - 1}  years`;
   };
 
-  console.log("actorDetails :>> ", actorDetails);
-  console.log("actorMovies :>> ", actorMovies);
   if (!actorDetails) {
     return <Loading>Loading...</Loading>;
   }
 
-  const { name, profile_path, birthday, deathday, biography, homepage } = actorDetails;
+  const {
+    name,
+    profile_path,
+    birthday,
+    deathday,
+    place_of_birth,
+    biography,
+    homepage,
+    gender,
+  } = actorDetails;
 
-  const poster = profile_path ? `https://image.tmdb.org/t/p/w300/${profile_path}` : movie;
+  const poster = profile_path
+    ? `https://image.tmdb.org/t/p/w300/${profile_path}`
+    : gender === 1
+    ? actress
+    : gender === 2
+    ? actor
+    : question;
 
   return (
     <>
@@ -89,46 +123,108 @@ export default function () {
           <Poster src={poster} />
           <Description>
             <Title>{`${name}`}</Title>
-            <p>
-              Homepage: <strong>{homepage}</strong>
-            </p>
+            {homepage ? (
+              <p>
+                Homepage: <strong>{homepage}</strong>
+              </p>
+            ) : null}
             <Row>
-              <div>{`${birthday.replace(/-/gi, "/")} ${
-                deathday ? `-${deathday.replace(/-/gi, "/")}` : ""
-              }`}</div>
-              <Dirived />
+              {place_of_birth ? (
+                <>
+                  <div>{place_of_birth}</div>
+                  <Dirived />
+                </>
+              ) : null}
+              {birthday ? (
+                <>
+                  <div>{`${birthday.replace(/-/gi, "/")} ${
+                    deathday ? `-${deathday.replace(/-/gi, "/")}` : ""
+                  }`}</div>
+                  <Dirived />
+                </>
+              ) : null}
+
               <div>{age()}</div>
-              {/* <Date>{release_date.replace(/-/gi, "/")}</Date>
-                {production_countries.length ? (
-                  <>
-                    <Dirived />
-                    <Genres>
-                      {production_countries.map(
-                        ({ name }, key) =>
-                          `${name}${key + 1 < production_countries.length ? ", " : ""}`,
-                      )}
-                    </Genres>
-                  </>
-                ) : null}
-                <Dirived />
-                <Genres>
-                  {genres.map(({ name }, key) => `${name}${key + 1 < genres.length ? ", " : ""}`)}
-                </Genres>
-                {runtime ? (
-                  <>
-                    <Dirived />
-                    <Runtime>{`${runtime} min`}</Runtime>
-                  </>
-                ) : null} */}
             </Row>
             <br />
-            <Overview>
-              <p>Biography:</p>
-              {biography}
-            </Overview>
+            {biography ? (
+              <Overview>
+                <p>Biography:</p>
+                {biography}
+              </Overview>
+            ) : null}
           </Description>
         </Content>
       </Details>
+      {cast && cast.length ? (
+        <MediaContainer>
+          <PartTitle>Starring:</PartTitle>
+          <PartScroll>
+            <PartList>
+              {cast.map(({ id, credit_id, release_date, poster_path, title, vote_average, genre_ids }) => {
+                const poster = poster_path
+                  ? `https://image.tmdb.org/t/p/w200/${poster_path}`
+                  : movie;
+                const year = release_date ? `(${release_date.split("-")[0]})` : "";
+                return (
+                  <Item key={credit_id} onClick={() => push(`movie_details?${id}`)}>
+                    <Image image={poster} />
+                    <div>
+                      <ItemTitle>{title}</ItemTitle>
+                      <div>{year}</div>
+                      {genre_ids.length ? (
+                        <Genres>
+                          {genre_ids.map((id, key) => {
+                            if (!genresMovie) {
+                              return null;
+                            }
+                            const name = genresMovie.genres.find((i) => i.id === id) || {
+                              name: { name: "" },
+                            };
+                            return (
+                              <span key={id}>{`${name.name}${
+                                key + 1 < genre_ids.length ? "," : ""
+                              } `}</span>
+                            );
+                          })}
+                        </Genres>
+                      ) : null}
+                    </div>
+                  </Item>
+                );
+              })}
+            </PartList>
+          </PartScroll>
+        </MediaContainer>
+      ) : null}
+      {actorMovies?.crew && actorMovies?.crew.length ? (
+        <MediaContainer>
+          <PartTitle>Production:</PartTitle>
+          <PartScroll>
+            <PartList>
+              {actorMovies?.crew.map(
+                ({ id, credit_id, department, job, release_date, poster_path, title }) => {
+                  const poster = poster_path
+                    ? `https://image.tmdb.org/t/p/w200/${poster_path}`
+                    : movie;
+                  const year = release_date ? `(${release_date.split("-")[0]})` : "";
+                  return (
+                    <Item key={credit_id} onClick={() => push(`movie_details?${id}`)}>
+                      <Image image={poster} />
+                      <div>
+                        <ItemTitle>{title}</ItemTitle>
+                        <div>{year}</div>
+                        <Genres>{job}</Genres>
+                      </div>
+                    </Item>
+                  );
+                },
+              )}
+            </PartList>
+          </PartScroll>
+        </MediaContainer>
+      ) : null}
+      <br />
     </>
   );
 }

@@ -57,7 +57,7 @@ export default function () {
     push(homePath);
     clear();
   };
-
+  
   return (
     <Wrapper>
       <Container>

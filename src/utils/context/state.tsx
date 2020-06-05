@@ -11,6 +11,6 @@ interface StateContextProps {
 }
 
 export default function ({ children, state }: StateContextProps) {
-  console.log('state :>> ', state);
+  console.log("GLOBAL STATE :>> ", state);
   return <StateContext.Provider value={state}>{children}</StateContext.Provider>;
 }

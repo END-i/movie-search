@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { useHistory } from "react-router-dom";
 
 import { ReactComponent as BackIcon } from "assets/icons/back.svg";
+import { gray9, white } from "assets/colors";
 
 const GoBack = styled.div`
   position: absolute;
@@ -19,7 +20,7 @@ const GoBack = styled.div`
   transition: 0.2s;
   svg {
     width: 30px;
-    fill: #999;
+    fill: ${gray9};
     margin: auto;
     transition: 0.2s;
   }
@@ -27,7 +28,7 @@ const GoBack = styled.div`
     background: #000;
   }
   &:hover > svg {
-    fill: #fff;
+    fill: ${white};
   }
   @media only screen and (max-width: 480px) {
     top: 85px;

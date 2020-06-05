@@ -15,9 +15,10 @@ const initialState: IInitialState = {
   searchAutocomplete: initResult,
   query: "",
   page: 1,
+  genresMovie: null,
+  genresTv: null,
   searchBy: { key: "movies", value: "movie" },
   movieDetails: null,
-  actorDetauls: null,
   movieActors: null,
   similarMovie: null,
   actorDetails: null,
@@ -25,8 +26,6 @@ const initialState: IInitialState = {
   filters: [
     { key: "actors", value: "person" },
     { key: "movies", value: "movie" },
-    { key: "company", value: "company" },
-    { key: "tv show", value: "tv" },
   ],
 };
 

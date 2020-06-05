@@ -7,6 +7,7 @@ import { useGlobalState } from "utils/context";
 import movie from "assets/icons/movie.svg";
 import actor from "assets/icons/actor.svg";
 import actress from "assets/icons/actress.svg";
+import question from "assets/icons/question.svg";
 import television from "assets/icons/television.svg";
 import corporate from "assets/icons/corporate.svg";
 
@@ -17,15 +18,17 @@ export default function (props: ItemProps) {
   const { push } = useHistory();
 
   if (value === "person") {
-    const { name, profile_path, gender } = props;
+    const { id, name, profile_path, gender } = props;
     const image = profile_path
       ? `https://image.tmdb.org/t/p/w200${profile_path}`
       : gender === 1
+      ? actress
+      : gender === 2
       ? actor
-      : actress;
+      : question;
 
     return (
-      <FilmWrapper onClick={() => {}}>
+      <FilmWrapper onClick={() => push(`actor_details?${id}`)}>
         <Poster image={image} cover={!Boolean(profile_path)} />
         <Title>{name}</Title>
       </FilmWrapper>
